@@ -109,10 +109,14 @@ const adminlogin = (async (req, res) => {
 
         //create a token 
         const token = jwt.sign({ userID: user._id }, process.env.jwt_secret)
+
         //login user
-        res
-            .status(200)
-            .send({ message: "user  successfully!", data: user, token })
+        res.status(200).json({
+            success: true,
+            message: "login successfully",
+            user: user, token
+
+        })
     } catch (error) {
         res
             .status(500)
@@ -120,4 +124,4 @@ const adminlogin = (async (req, res) => {
     }
 })
 
-module.exports = { adminRegister }
+module.exports = { adminRegister, adminlogin }
