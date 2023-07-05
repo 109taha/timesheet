@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const guardsSchema = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        require: true,
+        ref: "admin"
+    },
     name: {
         type: String,
         require: true,
