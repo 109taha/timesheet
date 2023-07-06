@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const guardsSchema = mongoose.Schema({
-    user: {
+    created_by: {
         type: mongoose.Schema.Types.ObjectId,
         require: true,
         ref: "admin"

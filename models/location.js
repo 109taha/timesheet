@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 const clientSchema = mongoose.Schema({
-    email: { type: String, require: true, trim: true },
+    email: {
+        type: String, trim: true, require: true, unique: true, lowercase: true, match: [
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+            "Please provide a valid email address",
+        ],
+    },
     role: { type: String, require: true, trim: true },
     contact_Number: { type: Number, require: true, trim: true }
 }, { timestamps: true })
@@ -60,7 +65,7 @@ const locationSchema = mongoose.Schema({
         type: String,
     }
 
-})
+}, { timestamps: true })
 
 const Location = mongoose.model("location", locationSchema)
 
