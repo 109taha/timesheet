@@ -126,20 +126,18 @@ const login = (async (req, res) => {
 })
 
 //delete User
-const deleted = async (req, res) => {
-    if (req.user.isSuperAdmin)
-        try {
-            const admin = await User.findByIdAndDelete(req.params.id);
-            if (!admin) {
-                return res.status(400).send({ success: false, message: "can't find the User" })
-            }
-            res.status(200).send({ sucess: true, message: "User has been delete" });
-        } catch (err) {
-            res.status(500).send(err);
+const deleted = (async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return res.status(400).send({ success: false, message: "can't find the User" })
         }
-    else
-        res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
-};
+        res.status(200).send({ sucess: true, message: "User has been delete" });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+
+});
 
 
 module.exports = { register, login, deleted }

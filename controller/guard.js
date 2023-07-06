@@ -76,7 +76,6 @@ const getAllGuard = (async (req, res) => {
 const freeGuard = (async (req, res) => {
     try {
         const freeguards = await Guard.find({ freeNow: true });
-        console.log(freeguards)
         if (!freeguards) {
             return res.status(400).send({ success: false, message: "can't find the free guard" })
         }

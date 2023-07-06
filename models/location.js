@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const clientSchema = mongoose.Schema({
     email: {
-        type: String, trim: true, require: true, unique: true, lowercase: true, match: [
+        type: String, trim: true, require: true, unique: true, lowercase: true,
+        match: [
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             "Please provide a valid email address",
         ],
@@ -54,11 +55,11 @@ const locationSchema = mongoose.Schema({
         enum: ["Monitoring", "NON-Monitoring"]
     },
     stratingDate: {
-        type: String,
+        type: Date,
         require: true,
     },
     endingDate: {
-        type: String,
+        type: Date,
         require: true,
     },
     note: {

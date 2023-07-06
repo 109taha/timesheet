@@ -47,7 +47,6 @@ const addlocation = (async (req, res) => {
         if (!endingDate) {
             return res.status(401).send("kindly provide a EndingTime")
         }
-        console.log(req.body)
         const newLocation = new Location(req.body);
         await newLocation.save()
         res.status(200).send({
@@ -79,15 +78,18 @@ const getlocation = (async (req, res) => {
 
 //delete location 
 const deletelocation = async (req, res) => {
-    try {
-        const location = await Location.findByIdAndDelete(req.params.id);
-        if (!location) {
-            return res.status(400).send({ success: false, message: "can't find the location" })
+    if (req.user.isSuperAdmin)
+        try {
+            const location = await Location.findByIdAndDelete(req.params.id);
+            if (!location) {
+                return res.status(400).send({ success: false, message: "can't find the location" })
+            }
+            res.status(200).send({ sucess: true, message: "location has been delete" });
+        } catch (err) {
+            res.status(500).send(err);
         }
-        res.status(200).send({ sucess: true, message: "location has been delete" });
-    } catch (err) {
-        res.status(500).send(err);
-    }
+    else
+        res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
 };
 
 module.exports = { addlocation, getlocation, deletelocation }
