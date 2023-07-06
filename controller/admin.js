@@ -2,7 +2,6 @@ const Guard = require("../models/guards")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Admin = require("../models/admin");
-const auth = require("../middleware/authMiddleware");
 
 //admin register
 const adminRegister = (async (req, res) => {
@@ -127,7 +126,22 @@ const adminlogin = (async (req, res) => {
     }
 })
 
+//deleteAdmin
+const deleteAdmin = async (req, res) => {
+    try {
+        const admin = await Admin.findByIdAndDelete(req.params.id);
+        if (!admin) {
+            return res.status(400).send({ success: false, message: "can't find the Admin" })
+        }
+        res.status(200).send({ sucess: true, message: "Admin has been delete" });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+
 module.exports = {
     adminRegister,
     adminlogin,
+    deleteAdmin
 }

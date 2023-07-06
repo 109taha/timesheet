@@ -33,6 +33,10 @@ const adminScheema = mongoose.Schema(
             trim: true,
             require: true
         },
+        superAdmin: {
+            type: Boolean,
+            default: false
+        }
     },
     { timestamps: true },
 )

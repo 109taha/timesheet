@@ -30,7 +30,7 @@ const guardsSchema = mongoose.Schema({
     note: {
         type: String,
     }
-}, { timestemps: true }
+}, { timestamps: true }
 )
 const Guard = mongoose.model("guard", guardsSchema);
 

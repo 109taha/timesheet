@@ -1,4 +1,5 @@
 const Guard = require("../models/guards")
+const { ObjectId } = require("mongoose").Types.ObjectId;
 
 //admin creating a guard
 const creatingGuard = (async (req, res) => {
@@ -66,7 +67,22 @@ const getAllGuard = (async (req, res) => {
     }
 })
 
+//deleteguard
+const deleteGuard = async (req, res) => {
+    try {
+        const guard = await Guard.findByIdAndDelete(req.params.id);
+        if (!guard) {
+            return res.status(400).send({ success: false, message: "can't find the guard" })
+        }
+        res.status(200).send({ sucess: true, message: "guard has been delete" });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+
 module.exports = {
     creatingGuard,
     getAllGuard,
+    deleteGuard
 }
