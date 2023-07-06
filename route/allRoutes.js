@@ -1,25 +1,31 @@
+//controller
 const { adminRegister, adminlogin, deleteAdmin } = require("../controller/admin");
-const { creatingGuard, getAllGuard, deleteGuard } = require("../controller/guard");
+const { creatingGuard, getAllGuard, deleteGuard, freeGuard } = require("../controller/guard");
 const { addlocation, getlocation, deletelocation } = require("../controller/location");
-const { adminMiddleware, SuperAdminMiddleware, verifytoken } = require("../middleware/authMiddleware");
-const {adminAuth, superAdminAuth} = require("../middleware/midlleware.js")
-const router = require("express").Router();
+
+//route
+const router = require("express").Router()
+
+//middlewares
+const verifySuperAdmin = require("../middleware/verifySuperAdmin");
+const verifyAdmin = require("../middleware/verifyAdmin")
 
 //admin
 router.post("/register", adminRegister);
 router.post("/login", adminlogin);
-router.delete("/deleteAdmin/:id", superAdminAuth, deleteAdmin);
+router.delete("/deleteAdmin/:id", verifySuperAdmin, deleteAdmin);
 
 
 //guard
-router.post("/createGuard", adminAuth, creatingGuard);
-router.get("/getAllGuard", adminAuth, getAllGuard);
-router.delete("/deleteGuard/:id", superAdminAuth, deleteGuard);
+router.post("/createGuard", verifyAdmin, creatingGuard);
+router.delete("/deleteGuard/:id", verifySuperAdmin, deleteGuard);
+router.get("/getAllGuard", getAllGuard);
+router.get("/freeGuard", freeGuard)
 
 //location
-router.post("/createlocation", adminMiddleware, addlocation)
-router.get("/getlocation", adminMiddleware, getlocation)
-router.delete("/deletelocation/:id", adminMiddleware, deletelocation);
+router.post("/createlocation", verifyAdmin, addlocation)
+router.delete("/deletelocation/:id", verifySuperAdmin, deletelocation);
+router.get("/getlocation", getlocation)
 
 
 module.exports = router;

@@ -1,10 +1,9 @@
 const Guard = require("../models/guards")
-const { ObjectId } = require("mongoose").Types.ObjectId;
 
 //admin creating a guard
 const creatingGuard = (async (req, res) => {
     try {
-        const { name, employee_ID, number, type, note } = req.body;
+        const { name, employee_ID, number, type, freeNow, note } = req.body;
         if (!name) {
             return res.status(401).send({
                 success: false,
@@ -27,6 +26,12 @@ const creatingGuard = (async (req, res) => {
             return res.status(401).send({
                 success: false,
                 message: "kindly provide the type of the guard"
+            })
+        }
+        if (!freeNow) {
+            return res.status(401).send({
+                success: false,
+                message: "Is the gurad is free ?"
             })
         }
 
@@ -67,22 +72,41 @@ const getAllGuard = (async (req, res) => {
     }
 })
 
+// free guard
+const freeGuard = (async (req, res) => {
+    try {
+        const freeguards = await Guard.find({ freeNow: true });
+        console.log(freeguards)
+        if (!freeguards) {
+            return res.status(400).send({ success: false, message: "can't find the free guard" })
+        }
+        return res.status(200).send({ success: true, message: freeguards })
+    } catch (error) {
+        res.status(500).send({ success: false, message: "something went wrong!" })
+    }
+})
+
 //deleteguard
 const deleteGuard = async (req, res) => {
-    try {
-        const guard = await Guard.findByIdAndDelete(req.params.id);
-        if (!guard) {
-            return res.status(400).send({ success: false, message: "can't find the guard" })
+    if (req.user.isSuperAdmin)
+        try {
+            const guard = await Guard.findByIdAndDelete(req.params.id);
+            if (!guard) {
+                return res.status(400).send({ success: false, message: "can't find the guard" })
+            }
+            res.status(200).send({ sucess: true, message: "guard has been delete" });
+        } catch (err) {
+            res.status(500).send(err);
         }
-        res.status(200).send({ sucess: true, message: "guard has been delete" });
-    } catch (err) {
-        res.status(500).send(err);
-    }
+    else
+        res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
+
 };
 
 
 module.exports = {
     creatingGuard,
     getAllGuard,
-    deleteGuard
+    deleteGuard,
+    freeGuard
 }

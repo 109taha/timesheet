@@ -128,15 +128,18 @@ const adminlogin = (async (req, res) => {
 
 //deleteAdmin
 const deleteAdmin = async (req, res) => {
-    try {
-        const admin = await Admin.findByIdAndDelete(req.params.id);
-        if (!admin) {
-            return res.status(400).send({ success: false, message: "can't find the Admin" })
+    if (req.user.isSuperAdmin)
+        try {
+            const admin = await Admin.findByIdAndDelete(req.params.id);
+            if (!admin) {
+                return res.status(400).send({ success: false, message: "can't find the Admin" })
+            }
+            res.status(200).send({ sucess: true, message: "Admin has been delete" });
+        } catch (err) {
+            res.status(500).send(err);
         }
-        res.status(200).send({ sucess: true, message: "Admin has been delete" });
-    } catch (err) {
-        res.status(500).send(err);
-    }
+    else
+        res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
 };
 
 

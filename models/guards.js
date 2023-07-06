@@ -27,6 +27,11 @@ const guardsSchema = mongoose.Schema({
         require: true,
         trim: true
     },
+    freeNow: {
+        type: Boolean,
+        require: true,
+        default: true
+    },
     note: {
         type: String,
     }
