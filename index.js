@@ -1,9 +1,9 @@
-const adminRoute = require("./route/admin")
+const routes = require("./route/allRoutes")
 const express = require("express");
 require("dotenv").config();
 const app = express();
 app.use(express.json());
-app.use("/admin", adminRoute)
+app.use("/", routes)
 
 const connectToMongoDB = require("./config/connectMongdb");
 connectToMongoDB();

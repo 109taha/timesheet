@@ -11,9 +11,10 @@ const guardsSchema = mongoose.Schema({
         require: true,
         trim: true,
     },
-    ID: {
+    employee_ID: {
         type: String,
         require: true,
+        unique: true
     },
     number: {
         type: Number,

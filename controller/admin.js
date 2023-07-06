@@ -1,8 +1,10 @@
-const User = require("../models/admin");
+const Guard = require("../models/guards")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Admin = require("../models/admin");
+const auth = require("../middleware/authMiddleware");
 
+//admin register
 const adminRegister = (async (req, res) => {
     try {
         //checking the user info
@@ -54,7 +56,7 @@ const adminRegister = (async (req, res) => {
         req.body.password = hashedpassword
 
         //save user
-        const newUser = new User(req.body);
+        const newUser = new Admin(req.body);
         await newUser.save();
         res.status(200).json({
             success: true,
@@ -71,6 +73,7 @@ const adminRegister = (async (req, res) => {
     }
 })
 
+//admin login
 const adminlogin = (async (req, res) => {
     try {
         //checking the user info
@@ -108,7 +111,7 @@ const adminlogin = (async (req, res) => {
         }
 
         //create a token 
-        const token = jwt.sign({ userID: user._id }, process.env.jwt_secret)
+        const token = jwt.sign({ userID: user._id }, process.env.admin_jwt_secret)
 
         //login user
         res.status(200).json({
@@ -124,4 +127,7 @@ const adminlogin = (async (req, res) => {
     }
 })
 
-module.exports = { adminRegister, adminlogin }
+module.exports = {
+    adminRegister,
+    adminlogin,
+}
