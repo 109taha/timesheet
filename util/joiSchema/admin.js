@@ -1,28 +1,33 @@
-const Joi = reqiure("joi")
+const Joi = require("joi")
 
 const adminSchema = Joi.object({
     firstname: Joi.string()
-        .require()
-        .min(5)
-        .max(40),
+        .min(3)
+        .max(40)
+        .required(),
 
     lastname: Joi.string()
-        .require()
-        .min(5)
+        .required()
+        .min(3)
         .max(40),
 
     email: Joi.string()
         .email()
         .required(),
 
-    username: Joi.string()
-        .min(5)
-        .max(40)
-        .pattern(/^[A-Za-z0-9]*$/)
-        .required(),
+    superAdmin: Joi.string()
+        .required()
+        .optional(),
 
     password: Joi.string()
         .min(7)
         .max(70)
         .required(),
+
+    phone: Joi.number()
+        .min(7)
+        .required(),
+
 })
+
+module.exports = adminSchema

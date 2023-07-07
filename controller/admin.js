@@ -1,42 +1,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Admin = require("../models/admin");
+const adminSchema = require("../util/joiSchema/admin")
 
 //admin register
 const adminRegister = (async (req, res) => {
     try {
-        //checking the user info
-        const { email, password, firstname, lastname, phone } = req.body
-        if (!email) {
-            return res.status(401).json({
-                success: false,
-                message: "Kindly provide a E-mail"
-            })
-        }
-        if (!firstname) {
-            return res.status(401).json({
-                success: false,
-                message: "Kindly provide a Name"
-            })
-        }
-        if (!lastname) {
-            return res.status(401).json({
-                success: false,
-                message: "Kindly provide a Name"
-            })
-        }
-        if (!phone) {
-            return res.status(401).json({
-                success: false,
-                message: "Kindly provide a Phone Number"
-            })
-        }
-        if (!password) {
-            return res.status(401).json({
-                success: false,
-                message: "Kindly provide a pasword"
-            })
-        }
         //checking the user axistence
         const user = await Admin.findOne({ email: req.body.email });
         if (user) {
