@@ -3,37 +3,6 @@ const Guard = require("../models/guards")
 //admin creating a guard
 const creatingGuard = (async (req, res) => {
     try {
-        const { name, employee_ID, number, type, freeNow, note } = req.body;
-        if (!name) {
-            return res.status(401).send({
-                success: false,
-                message: "kindly provide the name of the guard"
-            })
-        }
-        if (!employee_ID) {
-            return res.status(401).send({
-                success: false,
-                message: "kindly provide the employee_ID of the guard"
-            })
-        }
-        if (!number) {
-            return res.status(401).send({
-                success: false,
-                message: "kindly provide the number of the guard"
-            })
-        }
-        if (!type) {
-            return res.status(401).send({
-                success: false,
-                message: "kindly provide the type of the guard"
-            })
-        }
-        if (!freeNow) {
-            return res.status(401).send({
-                success: false,
-                message: "Is the gurad is free ?"
-            })
-        }
 
         const guard = await Guard.findOne({ employee_ID });
         if (guard) {
@@ -102,6 +71,12 @@ const deleteGuard = async (req, res) => {
 
 };
 
+//location
+const locationVerify = async (req, res) => {
+    // const location = req.body,
+    // (location frond end ka banda send keray ga jb )
+    // (api ko srif location verify krne hh k ya location === location)
+}
 
 module.exports = {
     creatingGuard,

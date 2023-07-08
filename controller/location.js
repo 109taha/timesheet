@@ -3,50 +3,6 @@ const Location = require("../models/location");
 //create a location
 const addlocation = (async (req, res) => {
     try {
-        const {
-            locationName,
-            address,
-            timeZone,
-            coverageTime,
-            clientDetail,
-            locatedType,
-            locatedWhere,
-            site,
-            stratingDate,
-            endingDate,
-            note
-        } = req.body
-
-        if (!locationName) {
-            return res.status(401).send("kindly provide a location Name")
-        }
-        if (!address) {
-            return res.status(401).send("kindly provide a address")
-        }
-        if (!timeZone) {
-            return res.status(401).send("kindly provide a timeZone")
-        }
-        if (!coverageTime) {
-            return res.status(401).send("kindly provide a CoverageTime")
-        }
-        if (!clientDetail) {
-            return res.status(401).send("kindly provide a ClientDetail")
-        }
-        if (!locatedType) {
-            return res.status(401).send("kindly provide a locatedtype")
-        }
-        if (!locatedWhere) {
-            return res.status(401).send("kindly provide a locatedwhere")
-        }
-        if (!site) {
-            return res.status(401).send("kindly provide a site")
-        }
-        if (!stratingDate) {
-            return res.status(401).send("kindly provide a StratingTime")
-        }
-        if (!endingDate) {
-            return res.status(401).send("kindly provide a EndingTime")
-        }
         const newLocation = new Location(req.body);
         await newLocation.save()
         res.status(200).send({
@@ -91,5 +47,12 @@ const deletelocation = async (req, res) => {
     else
         res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
 };
+
+//location
+const guardLocationVerify = async (req, res) => {
+    // const location = req.body,
+    // (location frond end ka banda send keray ga jb )
+    // (api ko srif location verify krne hh k ya location === location)
+}
 
 module.exports = { addlocation, getlocation, deletelocation }

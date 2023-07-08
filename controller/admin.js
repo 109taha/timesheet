@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Admin = require("../models/admin");
-const adminSchema = require("../util/joiSchema/admin")
+
 
 //admin register
 const adminRegister = (async (req, res) => {
