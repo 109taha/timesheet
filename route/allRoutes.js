@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 //user
 router.post("/login", login);
 router.post("/register", validUserSchema, register);
-router.delete("/delete/:id", verifySuperAdmin, deleted);
+router.delete("/delete/:id", verifySuperAdmin || verifyAdmin, deleted);
 
 //admin
 router.post("/loginAdmin", adminlogin);
@@ -36,13 +36,13 @@ router.delete("/deleteAdmin/:id", verifySuperAdmin, deleteAdmin);
 //guard
 router.get("/freeGuard", freeGuard);
 router.get("/getAllGuard", getAllGuard);
-router.delete("/deleteGuard/:id", verifySuperAdmin, deleteGuard);
-router.post("/createGuard", validGuardSchema, verifyAdmin, creatingGuard);
+router.delete("/deleteGuard/:id", verifySuperAdmin || verifyAdmin, deleteGuard);
+router.post("/createGuard", validGuardSchema, verifyAdmin || verifySuperAdmin, creatingGuard);
 
 //location
 router.get("/getlocation", getlocation);
-router.delete("/deletelocation/:id", verifySuperAdmin, deletelocation);
-router.post("/createlocation", validLocationSchema, verifyAdmin, addlocation);
+router.delete("/deletelocation/:id", verifySuperAdmin || verifyAdmin, deletelocation);
+router.post("/createlocation", validLocationSchema, verifySuperAdmin || verifyAdmin, addlocation);
 
 
 module.exports = router;
