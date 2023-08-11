@@ -21,11 +21,15 @@ const guardsSchema = mongoose.Schema({
         require: true,
         trim: true
     },
+    categories: {
+        type: String,
+        require: true,
+        enum: ["Commercial", "Construction"]
+    },
     type: {
         type: String,
         enum: ["Regular", "Trailer"],
         require: true,
-        trim: true
     },
     freeNow: {
         type: Boolean,

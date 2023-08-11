@@ -14,6 +14,10 @@ const userSchema = Joi.object({
     number: Joi.number()
         .required(),
 
+    categories: Joi.string()
+        .valid("Construction", "Commercial")
+        .required(),
+
     type: Joi.string()
         .valid("Regular", "Trailer")
         .required(),

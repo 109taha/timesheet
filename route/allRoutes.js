@@ -2,7 +2,7 @@
 const { register, login, deleted } = require("../controller/user");
 const { adminRegister, adminlogin, deleteAdmin } = require("../controller/admin");
 const { addlocation, getlocation, deletelocation } = require("../controller/location");
-const { creatingGuard, getAllGuard, deleteGuard, freeGuard } = require("../controller/guard");
+const { creatingGuard, getAllGuard, deleteGuard, freeGuard, AllConstructionGuard, AllCommercialGuard } = require("../controller/guard");
 
 //route
 const router = require("express").Router();
@@ -38,10 +38,12 @@ router.get("/freeGuard", freeGuard);
 router.get("/getAllGuard", getAllGuard);
 router.delete("/deleteGuard/:id", verifySuperAdmin || verifyAdmin, deleteGuard);
 router.post("/createGuard", validGuardSchema, verifyAdmin || verifySuperAdmin, creatingGuard);
+router.get('/constructionGuard', AllConstructionGuard)
+router.get('/commercialGuard', AllCommercialGuard)
 
 //location
 router.get("/getlocation", getlocation);
-router.delete("/deletelocation/:id", verifySuperAdmin || verifyAdmin, deletelocation);
+router.delete("/deletelocation/:id", verifySuperAdmin, deletelocation);
 router.post("/createlocation", validLocationSchema, verifySuperAdmin || verifyAdmin, addlocation);
 
 

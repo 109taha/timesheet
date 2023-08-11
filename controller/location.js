@@ -1,9 +1,14 @@
 const Location = require("../models/location");
+const jwt = require("jsonwebtoken")
 
 //create a location
 const addlocation = (async (req, res) => {
     try {
-        const newLocation = new Location(req.body);
+        const admin = req.headers.authorization.split(" ")[1];
+        const decryptedToken = jwt.verify(admin, process.env.admin_jwt_secret);
+        const Admin_Id = decryptedToken.userID
+
+        const newLocation = new Location({ ...req.body, Admin_id: Admin_Id });
         await newLocation.save()
         res.status(200).send({
             success: true,
@@ -23,6 +28,11 @@ const addlocation = (async (req, res) => {
 const getlocation = (async (req, res) => {
     try {
         const location = await Location.find();
+        if (location.length === 0) {
+            return res.status(400).send({
+                message: "no location found"
+            })
+        }
         res.status(200).send(location)
     } catch (error) {
         res.stuatus(500).send({
@@ -34,25 +44,16 @@ const getlocation = (async (req, res) => {
 
 //delete location 
 const deletelocation = async (req, res) => {
-    if (req.user.isSuperAdmin)
-        try {
-            const location = await Location.findByIdAndDelete(req.params.id);
-            if (!location) {
-                return res.status(400).send({ success: false, message: "can't find the location" })
-            }
-            res.status(200).send({ sucess: true, message: "location has been delete" });
-        } catch (err) {
-            res.status(500).send(err);
+    try {
+        const location = await Location.findByIdAndDelete(req.params.id);
+        if (!location) {
+            return res.status(400).send({ success: false, message: "can't find the location" })
         }
-    else
-        res.status(401).send({ sucess: false, message: "UNAUTHORIZED" });
+        res.status(200).send({ sucess: true, message: "location has been delete" });
+    } catch (err) {
+        res.status(500).send(err);
+    }
 };
 
-//location
-const guardLocationVerify = async (req, res) => {
-    // const location = req.body,
-    // (location frond end ka banda send keray ga jb )
-    // (api ko srif location verify krne hh k ya location === location)
-}
 
 module.exports = { addlocation, getlocation, deletelocation }

@@ -10,8 +10,8 @@ const verifySuperAdmin = async (req, res, next) => {
         const decryptedToken = jwt.verify(token, process.env.admin_jwt_secret);
         req.body.userId = decryptedToken.userID;
         let admin = await Admin.findOne({ _id: req.body.userId })
-        if (!admin) {
-            res.send("sorry but you are not a super Admin")
+        if (admin.superAdmin === false) {
+            return res.send("You do not have a RIGHT to do that!")
         }
         req.user = { isSuperAdmin: admin.superAdmin }
         next();

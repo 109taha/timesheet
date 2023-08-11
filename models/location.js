@@ -13,10 +13,10 @@ const clientSchema = mongoose.Schema({
 }, { timestamps: true })
 
 const locationSchema = mongoose.Schema({
-    user: {
+    Admin_id: {
         type: mongoose.Schema.Types.ObjectId,
-        require: true,
-        ref: "admin"
+        ref: "admin",
+        require: true
     },
     locationName: {
         type: String,
